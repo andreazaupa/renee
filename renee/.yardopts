@@ -1,0 +1,6 @@
+--output-dir ../doc/meta
+--readme README.md
+--no-private
+--title Renee
+--markup markdown
+'lib/**/*.rb'

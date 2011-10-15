@@ -1,0 +1,6 @@
+--output-dir ../doc/core
+--readme README.md
+--no-private
+--title Renee Core
+--markup markdown
+'lib/**/*.rb'

@@ -19,3 +19,10 @@ renee_gems_tasks.each do |g, tn|
     sh "cd #{File.join(ROOT, g)} && #{Gem.ruby} -S rake test"
   end
 end
+
+desc "Generate documentation for the Padrino framework"
+task :doc do
+  renee_gems.each do |name|
+    sh "cd #{File.join(ROOT, name.to_s)} && #{Gem.ruby} -S rake doc"
+  end
+end
