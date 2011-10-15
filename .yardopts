@@ -1,0 +1,7 @@
+--output-dir doc/
+--readme README.md
+--no-private
+--title Renee Framework
+--markup markdown
+'renee/lib/**/*.rb'
+'renee-*/lib/**/*.rb'

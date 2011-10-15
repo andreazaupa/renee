@@ -1,0 +1,45 @@
+[ ] accept handling
+[ ] content-type / mime-type handling, registration
+[ ] serving static files from a public folder?
+[ ] exception handling in requests? handling not founds gracefully in dev?
+[ ] integration with models
+[ ] how do helpers work? how do extensions work?
+[ ] caching helpers
+[ ] auth helpers
+[ ] support for better stacktraces (i.e showexceptions)
+[ ] default registered middlewares? (method::override or rack::head or sessions)
+[ ] configurable forced encodings to default things to utf-8?
+[ ] request logger (sql, rendering, etc)
+[ ] context passing between multiple renee's, clearly, env is a big part of this.
+[ ] the marketing site for this whole thing
+[ ] more examples
+[ ] through documentation
+[ ] sinatra-like streaming API?
+
+Helpers and functionality in sinatra, worth discussing if we should include similar:
+
+ * Helper for accessing the session?
+   - session
+     * What does rack::session give you? is it any good?
+
+ * Helper for setting content type
+   - content_type :json
+     * this is equiv to headers(:content_type =>  ... ), see above
+     ** kind of except this is mime-type intelligent
+
+ * Send a file as a response
+   send_file "some/file.txt"
+   yes!
+
+ * Support for cache_control, expires, last_modified, etag
+   cache_control :public, :must_revalidate, :max_age => 60
+   expires 500, :public, :must_revalidate
+   etag(value, options = {})
+   last_modified(time)
+   see above!
+
+
+ * mime-type provides?
+ yes!
+ * user_agent filtering helpers?
+ yes !

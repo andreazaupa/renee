@@ -1,0 +1,18 @@
+<% @blog.posts.each do |p| %>
+  <p>
+    Title:
+    <a href='/<%= p.id %>'><%= p.title %></a>
+    <br />
+    <%= p.contents %>
+  </p>
+<% end%>
+
+<% if @blog.posts.empty? %><p>No posts</p><% end %>
+
+<br/>
+<form action=/ method=post>
+  Title
+  <input name=title><br/>
+  <textarea name=contents></textarea><br/>
+  <input type=submit>
+</form>
