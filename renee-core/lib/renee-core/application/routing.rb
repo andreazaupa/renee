@@ -21,7 +21,8 @@ class Renee
         # @api public
         def path(p, &blk)
           p = p[1, p.size] if p[0] == ?/
-          part(/^\/#{Regexp.quote(p)}(\/?$)?/, &blk)
+          extension_part = detected_extension ? "|\\.#{Regexp.quote(detected_extension)}" : ""
+          part(/^\/#{Regexp.quote(p)}(\/?|$)(?=\/|$#{extension_part})/, &blk)
         end
 
         # Like #path, but requires the entire path to be consumed.
@@ -77,7 +78,9 @@ class Renee
             complex_variable(/#{Regexp.quote(prepend)}(\d+)/, proc{|v| Integer(v)}, &blk)
           else case type
             when nil
-              complex_variable(/#{Regexp.quote(prepend)}([^\/]+)/, &blk)
+              detected_extension ?
+                complex_variable(/#{Regexp.quote(prepend)}((?:[^\/](?!#{Regexp.quote(detected_extension)}$))+)(?=$|\/|\.#{Regexp.quote(detected_extension)})/, &blk) :
+                complex_variable(/#{Regexp.quote(prepend)}([^\/]+)(?=$|\/)/, &blk)
             when Regexp
               complex_variable(/#{Regexp.quote(prepend)}(#{type.to_s})/, &blk)
             else
@@ -216,9 +219,9 @@ class Renee
         end
 
         private
-        def complex_variable(matcher = nil, transformer = nil, &blk)
+        def complex_variable(matcher, transformer = nil, &blk)
           warn "variable currently isn't taking any parameters" unless blk.arity > 0
-          if var_value = /^#{(matcher ? matcher.to_s : '\/([^\/]+)') * blk.arity}/.match(env['PATH_INFO'])
+          if var_value = /^#{(matcher.to_s) * blk.arity}/.match(env['PATH_INFO'])
             vars = var_value.to_a
             with_path_part(vars.shift) { blk.call *vars.map{|v| transformer ? transformer[v[0, v.size]] : v[0, v.size]} }
           end

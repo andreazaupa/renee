@@ -284,6 +284,31 @@ describe Renee::Core::Application::Routing do
       get '/test.xml'
       assert_equal 404,    response.status
     end
+
+    it "should match an extension when there is a non-specific variable before" do
+      mock_app do
+        var do |id|
+          extension 'html' do
+            halt "html #{id}"
+          end
+          extension 'xml' do
+            halt "xml #{id}"
+          end
+          no_extension do
+            halt "none #{id}"
+          end
+        end
+      end
+      get '/var.html'
+      assert_equal 200,        response.status
+      assert_equal 'html var', response.body
+      get '/var.xml'
+      assert_equal 200,        response.status
+      assert_equal 'xml var',  response.body
+      get '/var'
+      assert_equal 200,        response.status
+      assert_equal 'none var',  response.body
+    end
   end
 
   describe "with part and part_var" do
